@@ -2,21 +2,10 @@
 
 const body = document.body;
 const logo = document.querySelector('.logo');
-const success = document.createElement('div');
-const error = document.createElement('div');
-
-success.setAttribute('class', 'message');
-success.textContent = 'Promise was resolved!';
-error.setAttribute('class', 'message error-message');
-error.textContent = 'Promise was rejected!';
 
 const promise1 = new Promise((resolve) => {
   if (logo) {
-    logo.addEventListener('click', (e) => {
-      if (e.currentTarget === logo) {
-        resolve();
-      }
-    });
+    logo.addEventListener('click', () => resolve(), { once: true });
   }
 });
 
@@ -31,9 +20,17 @@ const promise2 = new Promise((resolve, reject) => {
 promise2.then(successMessage).catch(errorMessage);
 
 function successMessage() {
+  const success = document.createElement('div');
+
+  success.className = 'message';
+  success.textContent = 'Promise was resolved!';
   body.appendChild(success);
 }
 
 function errorMessage() {
+  const error = document.createElement('div');
+
+  error.className = 'message error-message';
+  error.textContent = 'Promise was rejected!';
   body.appendChild(error);
 }
